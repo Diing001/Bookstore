@@ -1,14 +1,15 @@
-version: '3.8'
 services:
-    serverside:
-        build: ./serverside
-        ports:
-        - "5000:5000"
-    
-    
-    clientside:
-        build: ./clientside
-        ports:
-        - "3000:3000"
-        depends_on:
-        - serverside
+  server:
+    build: ./serverside
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./serverside/.env
+    restart: unless-stopped
+
+  client:
+    build: ./clientside
+    ports:
+      - "5173:80"
+    depends_on:
+      - server
